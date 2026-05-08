@@ -14,8 +14,12 @@ import { Route as RiskRouteImport } from './routes/risk'
 import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as PoliciesRouteImport } from './routes/policies'
 import { Route as MembersRouteImport } from './routes/members'
+import { Route as MapRouteImport } from './routes/map'
+import { Route as KpiRouteImport } from './routes/kpi'
 import { Route as HonorsRouteImport } from './routes/honors'
 import { Route as EnterprisesRouteImport } from './routes/enterprises'
+import { Route as CockpitRouteImport } from './routes/cockpit'
+import { Route as ChainRouteImport } from './routes/chain'
 import { Route as ActivitiesRouteImport } from './routes/activities'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as EnterprisesIdRouteImport } from './routes/enterprises.$id'
@@ -45,6 +49,16 @@ const MembersRoute = MembersRouteImport.update({
   path: '/members',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MapRoute = MapRouteImport.update({
+  id: '/map',
+  path: '/map',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KpiRoute = KpiRouteImport.update({
+  id: '/kpi',
+  path: '/kpi',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HonorsRoute = HonorsRouteImport.update({
   id: '/honors',
   path: '/honors',
@@ -53,6 +67,16 @@ const HonorsRoute = HonorsRouteImport.update({
 const EnterprisesRoute = EnterprisesRouteImport.update({
   id: '/enterprises',
   path: '/enterprises',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CockpitRoute = CockpitRouteImport.update({
+  id: '/cockpit',
+  path: '/cockpit',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChainRoute = ChainRouteImport.update({
+  id: '/chain',
+  path: '/chain',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ActivitiesRoute = ActivitiesRouteImport.update({
@@ -74,8 +98,12 @@ const EnterprisesIdRoute = EnterprisesIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/activities': typeof ActivitiesRoute
+  '/chain': typeof ChainRoute
+  '/cockpit': typeof CockpitRoute
   '/enterprises': typeof EnterprisesRouteWithChildren
   '/honors': typeof HonorsRoute
+  '/kpi': typeof KpiRoute
+  '/map': typeof MapRoute
   '/members': typeof MembersRoute
   '/policies': typeof PoliciesRoute
   '/reports': typeof ReportsRoute
@@ -86,8 +114,12 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/activities': typeof ActivitiesRoute
+  '/chain': typeof ChainRoute
+  '/cockpit': typeof CockpitRoute
   '/enterprises': typeof EnterprisesRouteWithChildren
   '/honors': typeof HonorsRoute
+  '/kpi': typeof KpiRoute
+  '/map': typeof MapRoute
   '/members': typeof MembersRoute
   '/policies': typeof PoliciesRoute
   '/reports': typeof ReportsRoute
@@ -99,8 +131,12 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/activities': typeof ActivitiesRoute
+  '/chain': typeof ChainRoute
+  '/cockpit': typeof CockpitRoute
   '/enterprises': typeof EnterprisesRouteWithChildren
   '/honors': typeof HonorsRoute
+  '/kpi': typeof KpiRoute
+  '/map': typeof MapRoute
   '/members': typeof MembersRoute
   '/policies': typeof PoliciesRoute
   '/reports': typeof ReportsRoute
@@ -113,8 +149,12 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/activities'
+    | '/chain'
+    | '/cockpit'
     | '/enterprises'
     | '/honors'
+    | '/kpi'
+    | '/map'
     | '/members'
     | '/policies'
     | '/reports'
@@ -125,8 +165,12 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/activities'
+    | '/chain'
+    | '/cockpit'
     | '/enterprises'
     | '/honors'
+    | '/kpi'
+    | '/map'
     | '/members'
     | '/policies'
     | '/reports'
@@ -137,8 +181,12 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/activities'
+    | '/chain'
+    | '/cockpit'
     | '/enterprises'
     | '/honors'
+    | '/kpi'
+    | '/map'
     | '/members'
     | '/policies'
     | '/reports'
@@ -150,8 +198,12 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ActivitiesRoute: typeof ActivitiesRoute
+  ChainRoute: typeof ChainRoute
+  CockpitRoute: typeof CockpitRoute
   EnterprisesRoute: typeof EnterprisesRouteWithChildren
   HonorsRoute: typeof HonorsRoute
+  KpiRoute: typeof KpiRoute
+  MapRoute: typeof MapRoute
   MembersRoute: typeof MembersRoute
   PoliciesRoute: typeof PoliciesRoute
   ReportsRoute: typeof ReportsRoute
@@ -196,6 +248,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MembersRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/map': {
+      id: '/map'
+      path: '/map'
+      fullPath: '/map'
+      preLoaderRoute: typeof MapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kpi': {
+      id: '/kpi'
+      path: '/kpi'
+      fullPath: '/kpi'
+      preLoaderRoute: typeof KpiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/honors': {
       id: '/honors'
       path: '/honors'
@@ -208,6 +274,20 @@ declare module '@tanstack/react-router' {
       path: '/enterprises'
       fullPath: '/enterprises'
       preLoaderRoute: typeof EnterprisesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cockpit': {
+      id: '/cockpit'
+      path: '/cockpit'
+      fullPath: '/cockpit'
+      preLoaderRoute: typeof CockpitRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/chain': {
+      id: '/chain'
+      path: '/chain'
+      fullPath: '/chain'
+      preLoaderRoute: typeof ChainRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/activities': {
@@ -249,8 +329,12 @@ const EnterprisesRouteWithChildren = EnterprisesRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ActivitiesRoute: ActivitiesRoute,
+  ChainRoute: ChainRoute,
+  CockpitRoute: CockpitRoute,
   EnterprisesRoute: EnterprisesRouteWithChildren,
   HonorsRoute: HonorsRoute,
+  KpiRoute: KpiRoute,
+  MapRoute: MapRoute,
   MembersRoute: MembersRoute,
   PoliciesRoute: PoliciesRoute,
   ReportsRoute: ReportsRoute,
@@ -260,3 +344,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
