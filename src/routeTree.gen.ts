@@ -9,38 +9,214 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TendersRouteImport } from './routes/tenders'
+import { Route as RiskRouteImport } from './routes/risk'
+import { Route as ReportsRouteImport } from './routes/reports'
+import { Route as PoliciesRouteImport } from './routes/policies'
+import { Route as MembersRouteImport } from './routes/members'
+import { Route as HonorsRouteImport } from './routes/honors'
+import { Route as EnterprisesRouteImport } from './routes/enterprises'
+import { Route as ActivitiesRouteImport } from './routes/activities'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as EnterprisesIdRouteImport } from './routes/enterprises.$id'
 
+const TendersRoute = TendersRouteImport.update({
+  id: '/tenders',
+  path: '/tenders',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RiskRoute = RiskRouteImport.update({
+  id: '/risk',
+  path: '/risk',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReportsRoute = ReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PoliciesRoute = PoliciesRouteImport.update({
+  id: '/policies',
+  path: '/policies',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MembersRoute = MembersRouteImport.update({
+  id: '/members',
+  path: '/members',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HonorsRoute = HonorsRouteImport.update({
+  id: '/honors',
+  path: '/honors',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EnterprisesRoute = EnterprisesRouteImport.update({
+  id: '/enterprises',
+  path: '/enterprises',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ActivitiesRoute = ActivitiesRouteImport.update({
+  id: '/activities',
+  path: '/activities',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EnterprisesIdRoute = EnterprisesIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => EnterprisesRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/activities': typeof ActivitiesRoute
+  '/enterprises': typeof EnterprisesRouteWithChildren
+  '/honors': typeof HonorsRoute
+  '/members': typeof MembersRoute
+  '/policies': typeof PoliciesRoute
+  '/reports': typeof ReportsRoute
+  '/risk': typeof RiskRoute
+  '/tenders': typeof TendersRoute
+  '/enterprises/$id': typeof EnterprisesIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/activities': typeof ActivitiesRoute
+  '/enterprises': typeof EnterprisesRouteWithChildren
+  '/honors': typeof HonorsRoute
+  '/members': typeof MembersRoute
+  '/policies': typeof PoliciesRoute
+  '/reports': typeof ReportsRoute
+  '/risk': typeof RiskRoute
+  '/tenders': typeof TendersRoute
+  '/enterprises/$id': typeof EnterprisesIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/activities': typeof ActivitiesRoute
+  '/enterprises': typeof EnterprisesRouteWithChildren
+  '/honors': typeof HonorsRoute
+  '/members': typeof MembersRoute
+  '/policies': typeof PoliciesRoute
+  '/reports': typeof ReportsRoute
+  '/risk': typeof RiskRoute
+  '/tenders': typeof TendersRoute
+  '/enterprises/$id': typeof EnterprisesIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/activities'
+    | '/enterprises'
+    | '/honors'
+    | '/members'
+    | '/policies'
+    | '/reports'
+    | '/risk'
+    | '/tenders'
+    | '/enterprises/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/activities'
+    | '/enterprises'
+    | '/honors'
+    | '/members'
+    | '/policies'
+    | '/reports'
+    | '/risk'
+    | '/tenders'
+    | '/enterprises/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/activities'
+    | '/enterprises'
+    | '/honors'
+    | '/members'
+    | '/policies'
+    | '/reports'
+    | '/risk'
+    | '/tenders'
+    | '/enterprises/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ActivitiesRoute: typeof ActivitiesRoute
+  EnterprisesRoute: typeof EnterprisesRouteWithChildren
+  HonorsRoute: typeof HonorsRoute
+  MembersRoute: typeof MembersRoute
+  PoliciesRoute: typeof PoliciesRoute
+  ReportsRoute: typeof ReportsRoute
+  RiskRoute: typeof RiskRoute
+  TendersRoute: typeof TendersRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/tenders': {
+      id: '/tenders'
+      path: '/tenders'
+      fullPath: '/tenders'
+      preLoaderRoute: typeof TendersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/risk': {
+      id: '/risk'
+      path: '/risk'
+      fullPath: '/risk'
+      preLoaderRoute: typeof RiskRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reports': {
+      id: '/reports'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof ReportsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/policies': {
+      id: '/policies'
+      path: '/policies'
+      fullPath: '/policies'
+      preLoaderRoute: typeof PoliciesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/members': {
+      id: '/members'
+      path: '/members'
+      fullPath: '/members'
+      preLoaderRoute: typeof MembersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/honors': {
+      id: '/honors'
+      path: '/honors'
+      fullPath: '/honors'
+      preLoaderRoute: typeof HonorsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/enterprises': {
+      id: '/enterprises'
+      path: '/enterprises'
+      fullPath: '/enterprises'
+      preLoaderRoute: typeof EnterprisesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/activities': {
+      id: '/activities'
+      path: '/activities'
+      fullPath: '/activities'
+      preLoaderRoute: typeof ActivitiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +224,38 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/enterprises/$id': {
+      id: '/enterprises/$id'
+      path: '/$id'
+      fullPath: '/enterprises/$id'
+      preLoaderRoute: typeof EnterprisesIdRouteImport
+      parentRoute: typeof EnterprisesRoute
+    }
   }
 }
 
+interface EnterprisesRouteChildren {
+  EnterprisesIdRoute: typeof EnterprisesIdRoute
+}
+
+const EnterprisesRouteChildren: EnterprisesRouteChildren = {
+  EnterprisesIdRoute: EnterprisesIdRoute,
+}
+
+const EnterprisesRouteWithChildren = EnterprisesRoute._addFileChildren(
+  EnterprisesRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ActivitiesRoute: ActivitiesRoute,
+  EnterprisesRoute: EnterprisesRouteWithChildren,
+  HonorsRoute: HonorsRoute,
+  MembersRoute: MembersRoute,
+  PoliciesRoute: PoliciesRoute,
+  ReportsRoute: ReportsRoute,
+  RiskRoute: RiskRoute,
+  TendersRoute: TendersRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
