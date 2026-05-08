@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TendersRouteImport } from './routes/tenders'
+import { Route as SystemRouteImport } from './routes/system'
 import { Route as RiskRouteImport } from './routes/risk'
 import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as PoliciesRouteImport } from './routes/policies'
@@ -18,6 +19,7 @@ import { Route as MapRouteImport } from './routes/map'
 import { Route as KpiRouteImport } from './routes/kpi'
 import { Route as HonorsRouteImport } from './routes/honors'
 import { Route as EnterprisesRouteImport } from './routes/enterprises'
+import { Route as CrawlerRouteImport } from './routes/crawler'
 import { Route as CockpitRouteImport } from './routes/cockpit'
 import { Route as ChainRouteImport } from './routes/chain'
 import { Route as ActivitiesRouteImport } from './routes/activities'
@@ -27,6 +29,11 @@ import { Route as EnterprisesIdRouteImport } from './routes/enterprises.$id'
 const TendersRoute = TendersRouteImport.update({
   id: '/tenders',
   path: '/tenders',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SystemRoute = SystemRouteImport.update({
+  id: '/system',
+  path: '/system',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RiskRoute = RiskRouteImport.update({
@@ -69,6 +76,11 @@ const EnterprisesRoute = EnterprisesRouteImport.update({
   path: '/enterprises',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CrawlerRoute = CrawlerRouteImport.update({
+  id: '/crawler',
+  path: '/crawler',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CockpitRoute = CockpitRouteImport.update({
   id: '/cockpit',
   path: '/cockpit',
@@ -100,6 +112,7 @@ export interface FileRoutesByFullPath {
   '/activities': typeof ActivitiesRoute
   '/chain': typeof ChainRoute
   '/cockpit': typeof CockpitRoute
+  '/crawler': typeof CrawlerRoute
   '/enterprises': typeof EnterprisesRouteWithChildren
   '/honors': typeof HonorsRoute
   '/kpi': typeof KpiRoute
@@ -108,6 +121,7 @@ export interface FileRoutesByFullPath {
   '/policies': typeof PoliciesRoute
   '/reports': typeof ReportsRoute
   '/risk': typeof RiskRoute
+  '/system': typeof SystemRoute
   '/tenders': typeof TendersRoute
   '/enterprises/$id': typeof EnterprisesIdRoute
 }
@@ -116,6 +130,7 @@ export interface FileRoutesByTo {
   '/activities': typeof ActivitiesRoute
   '/chain': typeof ChainRoute
   '/cockpit': typeof CockpitRoute
+  '/crawler': typeof CrawlerRoute
   '/enterprises': typeof EnterprisesRouteWithChildren
   '/honors': typeof HonorsRoute
   '/kpi': typeof KpiRoute
@@ -124,6 +139,7 @@ export interface FileRoutesByTo {
   '/policies': typeof PoliciesRoute
   '/reports': typeof ReportsRoute
   '/risk': typeof RiskRoute
+  '/system': typeof SystemRoute
   '/tenders': typeof TendersRoute
   '/enterprises/$id': typeof EnterprisesIdRoute
 }
@@ -133,6 +149,7 @@ export interface FileRoutesById {
   '/activities': typeof ActivitiesRoute
   '/chain': typeof ChainRoute
   '/cockpit': typeof CockpitRoute
+  '/crawler': typeof CrawlerRoute
   '/enterprises': typeof EnterprisesRouteWithChildren
   '/honors': typeof HonorsRoute
   '/kpi': typeof KpiRoute
@@ -141,6 +158,7 @@ export interface FileRoutesById {
   '/policies': typeof PoliciesRoute
   '/reports': typeof ReportsRoute
   '/risk': typeof RiskRoute
+  '/system': typeof SystemRoute
   '/tenders': typeof TendersRoute
   '/enterprises/$id': typeof EnterprisesIdRoute
 }
@@ -151,6 +169,7 @@ export interface FileRouteTypes {
     | '/activities'
     | '/chain'
     | '/cockpit'
+    | '/crawler'
     | '/enterprises'
     | '/honors'
     | '/kpi'
@@ -159,6 +178,7 @@ export interface FileRouteTypes {
     | '/policies'
     | '/reports'
     | '/risk'
+    | '/system'
     | '/tenders'
     | '/enterprises/$id'
   fileRoutesByTo: FileRoutesByTo
@@ -167,6 +187,7 @@ export interface FileRouteTypes {
     | '/activities'
     | '/chain'
     | '/cockpit'
+    | '/crawler'
     | '/enterprises'
     | '/honors'
     | '/kpi'
@@ -175,6 +196,7 @@ export interface FileRouteTypes {
     | '/policies'
     | '/reports'
     | '/risk'
+    | '/system'
     | '/tenders'
     | '/enterprises/$id'
   id:
@@ -183,6 +205,7 @@ export interface FileRouteTypes {
     | '/activities'
     | '/chain'
     | '/cockpit'
+    | '/crawler'
     | '/enterprises'
     | '/honors'
     | '/kpi'
@@ -191,6 +214,7 @@ export interface FileRouteTypes {
     | '/policies'
     | '/reports'
     | '/risk'
+    | '/system'
     | '/tenders'
     | '/enterprises/$id'
   fileRoutesById: FileRoutesById
@@ -200,6 +224,7 @@ export interface RootRouteChildren {
   ActivitiesRoute: typeof ActivitiesRoute
   ChainRoute: typeof ChainRoute
   CockpitRoute: typeof CockpitRoute
+  CrawlerRoute: typeof CrawlerRoute
   EnterprisesRoute: typeof EnterprisesRouteWithChildren
   HonorsRoute: typeof HonorsRoute
   KpiRoute: typeof KpiRoute
@@ -208,6 +233,7 @@ export interface RootRouteChildren {
   PoliciesRoute: typeof PoliciesRoute
   ReportsRoute: typeof ReportsRoute
   RiskRoute: typeof RiskRoute
+  SystemRoute: typeof SystemRoute
   TendersRoute: typeof TendersRoute
 }
 
@@ -218,6 +244,13 @@ declare module '@tanstack/react-router' {
       path: '/tenders'
       fullPath: '/tenders'
       preLoaderRoute: typeof TendersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/system': {
+      id: '/system'
+      path: '/system'
+      fullPath: '/system'
+      preLoaderRoute: typeof SystemRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/risk': {
@@ -276,6 +309,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EnterprisesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/crawler': {
+      id: '/crawler'
+      path: '/crawler'
+      fullPath: '/crawler'
+      preLoaderRoute: typeof CrawlerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/cockpit': {
       id: '/cockpit'
       path: '/cockpit'
@@ -331,6 +371,7 @@ const rootRouteChildren: RootRouteChildren = {
   ActivitiesRoute: ActivitiesRoute,
   ChainRoute: ChainRoute,
   CockpitRoute: CockpitRoute,
+  CrawlerRoute: CrawlerRoute,
   EnterprisesRoute: EnterprisesRouteWithChildren,
   HonorsRoute: HonorsRoute,
   KpiRoute: KpiRoute,
@@ -339,6 +380,7 @@ const rootRouteChildren: RootRouteChildren = {
   PoliciesRoute: PoliciesRoute,
   ReportsRoute: ReportsRoute,
   RiskRoute: RiskRoute,
+  SystemRoute: SystemRoute,
   TendersRoute: TendersRoute,
 }
 export const routeTree = rootRouteImport
