@@ -40,7 +40,7 @@ function MembersPage() {
   return (
     <AppShell>
       <PageHeader title="会员管理" subtitle="协会会员信息、会费管理与到期提醒"
-        actions={<button onClick={() => setSheetOpen(true)} className="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-md bg-primary text-primary-foreground text-sm font-medium"><Plus className="h-4 w-4" />新增会员</button>} />
+        actions={<button onClick={() => setSheetOpen(true)} className="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-md bg-primary text-primary-foreground text-sm font-medium cursor-pointer"><Plus className="h-4 w-4" />新增会员</button>} />
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
         <StatCard label="在册会员" value={members.length} unit="家" icon={<Crown className="h-4 w-4" />} variant="primary" />
@@ -168,8 +168,8 @@ function MembersPage() {
               <input type="date" value={form.joinDate} onChange={(e) => setForm({ ...form, joinDate: e.target.value })} className="w-full h-9 px-3 rounded-md border border-input bg-background text-sm outline-none focus:ring-1 focus:ring-ring" />
             </div>
             <div className="pt-4 flex gap-2">
-              <button onClick={handleSubmit} className="flex-1 h-9 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:opacity-90">保存</button>
-              <button onClick={() => setSheetOpen(false)} className="flex-1 h-9 rounded-md border border-input text-sm hover:bg-accent">取消</button>
+              <button onClick={handleSubmit} className="flex-1 h-9 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:opacity-90 cursor-pointer">保存</button>
+              <button onClick={() => setSheetOpen(false)} className="flex-1 h-9 rounded-md border border-input text-sm hover:bg-accent cursor-pointer">取消</button>
             </div>
           </div>
         </SheetContent>

@@ -35,7 +35,7 @@ function HonorsPage() {
   return (
     <AppShell>
       <PageHeader title="荣誉资质追踪" subtitle="高新技术企业、专精特新等核心资质动态追踪与到期提醒"
-        actions={<button onClick={() => setSheetOpen(true)} className="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-md bg-primary text-primary-foreground text-sm font-medium"><Plus className="h-4 w-4" />录入资质</button>} />
+        actions={<button onClick={() => setSheetOpen(true)} className="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-md bg-primary text-primary-foreground text-sm font-medium cursor-pointer"><Plus className="h-4 w-4" />录入资质</button>} />
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
         <StatCard label="高新技术企业" value={counts[0].count} unit="家" delta={13} hint="本年新增18" variant="primary" icon={<Award className="h-4 w-4" />} />
@@ -125,8 +125,8 @@ function HonorsPage() {
               </div>
             </div>
             <div className="pt-4 flex gap-2">
-              <button onClick={handleSubmit} className="flex-1 h-9 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:opacity-90">保存</button>
-              <button onClick={() => setSheetOpen(false)} className="flex-1 h-9 rounded-md border border-input text-sm hover:bg-accent">取消</button>
+              <button onClick={handleSubmit} className="flex-1 h-9 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:opacity-90 cursor-pointer">保存</button>
+              <button onClick={() => setSheetOpen(false)} className="flex-1 h-9 rounded-md border border-input text-sm hover:bg-accent cursor-pointer">取消</button>
             </div>
           </div>
         </SheetContent>

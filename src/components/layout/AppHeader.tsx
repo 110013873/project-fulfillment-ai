@@ -1,5 +1,12 @@
-import { Bell, Search, User, Maximize2 } from "lucide-react";
-import { Link, useLocation } from "@tanstack/react-router";
+import { Bell, Search, User, Maximize2, LogOut, Settings } from "lucide-react";
+import { Link, useLocation, useNavigate } from "@tanstack/react-router";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const titleMap: Record<string, string> = {
   "/": "总览首页",
@@ -21,6 +28,7 @@ const titleMap: Record<string, string> = {
 
 export function AppHeader() {
   const { pathname } = useLocation();
+  const navigate = useNavigate();
   const title = Object.entries(titleMap).find(([k]) => k === pathname || (k !== "/" && pathname.startsWith(k)))?.[1] || "数据管理平台";
 
   return (
@@ -37,17 +45,32 @@ export function AppHeader() {
         <Link to="/cockpit" className="hidden md:flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors">
           <Maximize2 className="h-3.5 w-3.5" /> 大屏模式
         </Link>
-        <button className="relative h-9 w-9 rounded-md hover:bg-accent flex items-center justify-center transition-colors">
+        <button className="relative h-9 w-9 rounded-md hover:bg-accent flex items-center justify-center transition-colors cursor-pointer">
           <Bell className="h-4 w-4" />
           <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-destructive" />
         </button>
-        <div className="flex items-center gap-2 pl-3 border-l border-border">
-          <div className="h-8 w-8 rounded-full bg-gradient-primary flex items-center justify-center text-primary-foreground text-sm font-medium">李</div>
-          <div className="hidden md:block leading-tight">
-            <div className="text-xs font-medium">李秘书</div>
-            <div className="text-[10px] text-muted-foreground">协会管理员</div>
-          </div>
-        </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button className="flex items-center gap-2 pl-3 border-l border-border cursor-pointer hover:bg-accent/40 rounded-md py-1 pr-1 transition-colors">
+              <div className="h-8 w-8 rounded-full bg-gradient-primary flex items-center justify-center text-primary-foreground text-sm font-medium">李</div>
+              <div className="hidden md:block leading-tight text-left">
+                <div className="text-xs font-medium">李秘书</div>
+                <div className="text-[10px] text-muted-foreground">协会管理员</div>
+              </div>
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-48">
+            <DropdownMenuItem className="cursor-pointer" onClick={() => navigate({ to: "/system" })}>
+              <Settings className="h-4 w-4 mr-2" />
+              个人中心
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className="cursor-pointer text-destructive focus:text-destructive" onClick={() => navigate({ to: "/login" })}>
+              <LogOut className="h-4 w-4 mr-2" />
+              退出登录
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </header>
   );
