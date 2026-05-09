@@ -72,12 +72,12 @@ function Cockpit() {
   const formatDate = (d: Date) => `${d.getFullYear()}年${String(d.getMonth() + 1).padStart(2, "0")}月${String(d.getDate()).padStart(2, "0")}日 ${["日", "一", "二", "三", "四", "五", "六"][d.getDay()]}`;
 
   return (
-    <div className="min-h-screen bg-gradient-cockpit text-cyan-100 overflow-hidden relative">
+    <div className="h-screen flex flex-col bg-gradient-cockpit text-cyan-100 relative overflow-hidden">
       <div className="absolute inset-0 bg-grid-cyan opacity-60" />
       <div className="absolute inset-0 bg-radial-glow" />
 
       {/* Header */}
-      <header className="relative px-6 pt-4 pb-3 border-b border-cyan-400/15">
+      <header className="relative shrink-0 px-6 pt-4 pb-3 border-b border-cyan-400/15">
         <Link to="/" className="absolute left-5 top-1/2 -translate-y-1/2 inline-flex items-center gap-1.5 px-3 py-1.5 rounded border border-cyan-400/30 text-xs text-cyan-200/80 hover:bg-cyan-400/10 hover:text-cyan-100 transition backdrop-blur-sm">
           <ArrowLeft className="h-3.5 w-3.5" />退出大屏
         </Link>
@@ -100,7 +100,7 @@ function Cockpit() {
       </header>
 
       {/* Top KPI bar */}
-      <div className="relative px-5 py-3">
+      <div className="relative shrink-0 px-5 py-3">
         <div className="grid grid-cols-6 gap-2.5">
           <MetricBox label="入库企业总数" value={stats.totalEnterprises} unit="家" sub="本年新增 +12" icon={Building2} />
           <MetricBox label="在册会员单位" value={stats.memberCount} unit="家" sub="↑ 3.1%" icon={Crown} />
@@ -112,10 +112,10 @@ function Cockpit() {
       </div>
 
       {/* Main Grid */}
-      <div className="relative px-5 pb-5 grid grid-cols-12 gap-2.5" style={{ height: "calc(100vh - 200px)" }}>
+      <div className="relative flex-1 min-h-0 px-5 pb-5 grid grid-cols-12 gap-2.5 overflow-hidden">
         {/* Left column */}
-        <div className="col-span-3 flex flex-col gap-2.5">
-          <Panel title="行业结构分布" hint="UNIT: 家" icon={Cpu} className="flex-1">
+        <div className="col-span-3 flex flex-col gap-2.5 h-full min-h-0">
+          <Panel title="行业结构分布" hint="UNIT: 家" icon={Cpu} className="flex-1 min-h-0">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie data={industryDistribution} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={42} outerRadius={70} paddingAngle={3} stroke="#0c1f3d" strokeWidth={2}>
@@ -135,7 +135,7 @@ function Cockpit() {
             </div>
           </Panel>
 
-          <Panel title="企业规模结构" icon={Database} className="flex-1">
+          <Panel title="企业规模结构" icon={Database} className="flex-1 min-h-0">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={["大型", "中型", "小型", "微型"].map((s) => ({ name: s, count: enterprises.filter((e) => e.scale === s).length }))} margin={{ top: 5, right: 10, left: -20, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(34,211,238,.15)" />
@@ -148,8 +148,8 @@ function Cockpit() {
             </ResponsiveContainer>
           </Panel>
 
-          <Panel title="各区企业数量 TOP" icon={MapPin} className="flex-1">
-            <div className="space-y-2 mt-1">
+          <Panel title="各区企业数量 TOP" icon={MapPin} className="flex-1 min-h-0">
+            <div className="space-y-2 mt-1 overflow-y-auto h-full pr-1">
               {districtDistribution.slice().sort((a, b) => b.count - a.count).slice(0, 6).map((d, i) => {
                 const max = Math.max(...districtDistribution.map((x) => x.count));
                 return (
@@ -168,8 +168,8 @@ function Cockpit() {
         </div>
 
         {/* Center column */}
-        <div className="col-span-6 flex flex-col gap-2.5">
-          <Panel title="近5年产业营收规模趋势" hint="UNIT: 亿元 / 家" icon={TrendingUp} className="flex-1 scanline">
+        <div className="col-span-6 flex flex-col gap-2.5 h-full min-h-0">
+          <Panel title="近5年产业营收规模趋势" hint="UNIT: 亿元 / 家" icon={TrendingUp} className="flex-1 min-h-0 scanline">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={yearTrend} margin={{ top: 10, right: 20, left: -10, bottom: 0 }}>
                 <defs>
@@ -192,8 +192,8 @@ function Cockpit() {
             </ResponsiveContainer>
           </Panel>
 
-          <div className="grid grid-cols-3 gap-2.5 h-[44%]">
-            <Panel title="年度KPI完成率" icon={Maximize2} className="col-span-1">
+          <div className="grid grid-cols-3 gap-2.5 h-[44%] min-h-0">
+            <Panel title="年度KPI完成率" icon={Maximize2} className="col-span-1 min-h-0">
               <ResponsiveContainer width="100%" height="100%">
                 <RadialBarChart innerRadius="60%" outerRadius="100%" data={completionData} startAngle={210} endAngle={-30}>
                   <RadialBar dataKey="value" cornerRadius={10} fill="#22d3ee" background={{ fill: "rgba(34,211,238,.08)" }} />
@@ -206,14 +206,14 @@ function Cockpit() {
               </div>
             </Panel>
 
-            <Panel title="区域企业分布 · 热力" icon={MapPin} className="col-span-2">
-              <div className="grid grid-cols-4 grid-rows-2 gap-1.5 h-full">
+            <Panel title="区域企业分布 · 热力" icon={MapPin} className="col-span-2 min-h-0">
+              <div className="grid grid-cols-4 grid-rows-2 gap-1.5 h-full overflow-hidden">
                 {districtDistribution.map((d) => {
                   const max = Math.max(...districtDistribution.map((x) => x.count));
                   const heat = d.count / max;
                   return (
-                    <div key={d.name} className="rounded p-2 flex flex-col justify-between border border-cyan-400/30 relative overflow-hidden hover:border-cyan-300 transition" style={{ background: `linear-gradient(135deg, rgba(34,211,238,${heat * 0.55}), rgba(59,130,246,${heat * 0.35}))` }}>
-                      <div className="text-[11px] text-cyan-50 font-medium flex items-center gap-1"><MapPin className="h-2.5 w-2.5 text-cyan-300/70" />{d.name}</div>
+                    <div key={d.name} className="rounded p-2 flex flex-col justify-between border border-cyan-400/30 relative overflow-hidden hover:border-cyan-300 transition min-h-0" style={{ background: `linear-gradient(135deg, rgba(34,211,238,${heat * 0.55}), rgba(59,130,246,${heat * 0.35}))` }}>
+                      <div className="text-[11px] text-cyan-50 font-medium flex items-center gap-1"><MapPin className="h-2.5 w-2.5 text-cyan-300/70 shrink-0" />{d.name}</div>
                       <div>
                         <div className="text-lg font-bold text-cyan-50 tabular-nums text-glow-cyan">{d.count}</div>
                         <div className="text-[9px] text-cyan-200/70">家企业 · {(heat * 100).toFixed(0)}%</div>
@@ -228,8 +228,8 @@ function Cockpit() {
         </div>
 
         {/* Right column */}
-        <div className="col-span-3 flex flex-col gap-2.5">
-          <Panel title="2024中标金额 TOP8" hint="UNIT: 万元" icon={Zap} className="flex-1">
+        <div className="col-span-3 flex flex-col gap-2.5 h-full min-h-0">
+          <Panel title="2024中标金额 TOP8" hint="UNIT: 万元" icon={Zap} className="flex-1 min-h-0">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={top10Tender} layout="vertical" margin={{ top: 5, right: 15, left: 0, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(34,211,238,.15)" horizontal={false} />
@@ -242,20 +242,20 @@ function Cockpit() {
             </ResponsiveContainer>
           </Panel>
 
-          <Panel title="营收 TOP 重点企业" icon={Award} className="flex-1">
-            <div className="space-y-1.5 mt-1 text-xs">
+          <Panel title="营收 TOP 重点企业" icon={Award} className="flex-1 min-h-0">
+            <div className="space-y-1.5 mt-1 text-xs overflow-y-auto h-full pr-1">
               {topRev.map((e, i) => (
-                <div key={e.id} className="flex items-center gap-2 px-2 py-1.5 rounded border border-cyan-400/15 bg-gradient-to-r from-cyan-500/10 to-transparent hover:border-cyan-300/40 transition">
+                <div key={e.id} className="flex items-center gap-2 px-2 py-1.5 rounded border border-cyan-400/15 bg-gradient-to-r from-cyan-500/10 to-transparent hover:border-cyan-300/40 transition shrink-0">
                   <span className={`w-5 h-5 rounded text-[10px] flex items-center justify-center font-bold ${i === 0 ? "bg-amber-400/35 text-amber-100" : i === 1 ? "bg-slate-300/25 text-slate-100" : i === 2 ? "bg-orange-500/30 text-orange-100" : "bg-cyan-500/20 text-cyan-200"}`}>{i + 1}</span>
                   <span className="flex-1 truncate text-cyan-50/95">{e.name.replace("股份有限公司", "")}</span>
-                  {e.memberLevel !== "非会员" && <Crown className="h-3 w-3 text-amber-300" />}
-                  <span className="tabular-nums text-cyan-100 font-semibold text-glow-cyan">{(e.revenue[4].value / 10000).toFixed(1)}<span className="text-[9px] text-cyan-300/70 ml-0.5">亿</span></span>
+                  {e.memberLevel !== "非会员" && <Crown className="h-3 w-3 text-amber-300 shrink-0" />}
+                  <span className="tabular-nums text-cyan-100 font-semibold text-glow-cyan shrink-0">{(e.revenue[4].value / 10000).toFixed(1)}<span className="text-[9px] text-cyan-300/70 ml-0.5">亿</span></span>
                 </div>
               ))}
             </div>
           </Panel>
 
-          <Panel title="实时数据动态" hint="LIVE" icon={Radio} className="h-[28%]">
+          <Panel title="实时数据动态" hint="LIVE" icon={Radio} className="h-[28%] min-h-[140px]">
             <div className="absolute top-1 right-12 flex items-center gap-1 text-[9px] text-emerald-300">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 pulse-dot" />实时
             </div>

@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useLocation } from "@tanstack/react-router";
 import { useState, useMemo } from "react";
 import { AppShell, PageHeader } from "@/components/layout/AppShell";
 import { enterprises } from "@/lib/mock-data";
@@ -15,6 +15,9 @@ const statusBadge: Record<string, string> = {
 };
 
 function EnterprisesPage() {
+  const { pathname } = useLocation();
+  const isDetailPage = pathname !== "/enterprises";
+
   const [q, setQ] = useState("");
   const [district, setDistrict] = useState("");
   const [scale, setScale] = useState("");
@@ -31,6 +34,10 @@ function EnterprisesPage() {
     (!status || e.status === status) &&
     (!memberOnly || e.memberLevel !== "非会员"),
   ), [q, district, scale, status, memberOnly]);
+
+  if (isDetailPage) {
+    return <Outlet />;
+  }
 
   return (
     <AppShell>
