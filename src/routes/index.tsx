@@ -26,12 +26,12 @@ function Home() {
       />
 
       <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4 mb-6">
-        <StatCard label="入库企业" value={stats.totalEnterprises} unit="家" delta={5.4} hint="本年新增12" icon={<Building2 className="h-4 w-4" />} variant="primary" />
-        <StatCard label="在册会员" value={stats.memberCount} unit="家" delta={3.1} icon={<Users className="h-4 w-4" />} />
-        <StatCard label="本年中标金额" value={(stats.yearTenderAmount / 10000).toFixed(2)} unit="亿元" delta={18.6} icon={<TrendingUp className="h-4 w-4" />} />
-        <StatCard label="高新企业" value={stats.highTechCount} unit="家" delta={13} icon={<Award className="h-4 w-4" />} />
+        <StatCard label="入库企业" value={stats.totalEnterprises} unit="家" delta={5.4} hint="本年新增12" icon={<Building2 className="h-4 w-4" />} variant="primary" to="/enterprises" />
+        <StatCard label="在册会员" value={stats.memberCount} unit="家" delta={3.1} icon={<Users className="h-4 w-4" />} to="/members" />
+        <StatCard label="本年中标金额" value={(stats.yearTenderAmount / 10000).toFixed(2)} unit="亿元" delta={18.6} icon={<TrendingUp className="h-4 w-4" />} to="/tenders" />
+        <StatCard label="高新企业" value={stats.highTechCount} unit="家" delta={13} icon={<Award className="h-4 w-4" />} to="/honors" />
         <StatCard label="待审核" value={stats.pendingAudit} unit="条" hint="需要处理" icon={<FileText className="h-4 w-4" />} />
-        <StatCard label="风险预警" value={stats.riskCount} unit="家" hint={`含红级 ${stats.redRiskCount}`} icon={<AlertTriangle className="h-4 w-4" />} />
+        <StatCard label="风险预警" value={stats.riskCount} unit="家" hint={`含红级 ${stats.redRiskCount}`} icon={<AlertTriangle className="h-4 w-4" />} to="/risk" />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">

@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import { TrendingUp, TrendingDown } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
 
 interface StatCardProps {
@@ -10,13 +11,15 @@ interface StatCardProps {
   hint?: string;
   icon?: ReactNode;
   variant?: "default" | "primary" | "navy";
+  to?: string;
 }
 
-export function StatCard({ label, value, unit, delta, hint, icon, variant = "default" }: StatCardProps) {
-  return (
+export function StatCard({ label, value, unit, delta, hint, icon, variant = "default", to }: StatCardProps) {
+  const inner = (
     <div className={cn(
       "relative overflow-hidden rounded-lg border p-5 shadow-card transition-all hover:shadow-elevated",
-      variant === "default" && "bg-card border-border",
+      to && "cursor-pointer hover:scale-[1.02] active:scale-[0.98]",
+      variant === "default" && "bg-card border-border hover:border-primary/40",
       variant === "primary" && "bg-gradient-primary text-primary-foreground border-transparent",
       variant === "navy" && "bg-gradient-navy text-navy-foreground border-transparent",
     )}>
@@ -41,4 +44,14 @@ export function StatCard({ label, value, unit, delta, hint, icon, variant = "def
       </div>
     </div>
   );
+
+  if (to) {
+    return (
+      <Link to={to} className="block focus:outline-none">
+        {inner}
+      </Link>
+    );
+  }
+
+  return inner;
 }
