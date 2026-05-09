@@ -1,9 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
 import { AppShell, PageHeader } from "@/components/layout/AppShell";
 import { enterprises } from "@/lib/mock-data";
-import { Crown, Plus, Bell, Calendar } from "lucide-react";
+import { Crown, Plus, Bell } from "lucide-react";
 import { StatCard } from "@/components/StatCard";
 import { cn } from "@/lib/utils";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/members")({ component: MembersPage });
 
@@ -18,14 +21,26 @@ const levelStyle: Record<string, string> = {
 const fees: Record<string, number> = { "会长单位": 100000, "副会长单位": 60000, "常务理事单位": 30000, "理事单位": 15000, "普通会员单位": 5000 };
 
 function MembersPage() {
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const [form, setForm] = useState({
+    enterprise: enterprises.find((e) => e.memberLevel === "非会员")?.name || enterprises[0]?.name || "",
+    level: "普通会员单位",
+    joinDate: new Date().toISOString().slice(0, 10),
+  });
+
   const members = enterprises.filter((e) => e.memberLevel !== "非会员");
   const totalFee = members.reduce((s, m) => s + (fees[m.memberLevel] || 0), 0);
   const expiringSoon = members.slice(0, 4);
 
+  const handleSubmit = () => {
+    toast.success(`「${form.enterprise}」已添加为${form.level}`);
+    setSheetOpen(false);
+  };
+
   return (
     <AppShell>
       <PageHeader title="会员管理" subtitle="协会会员信息、会费管理与到期提醒"
-        actions={<button className="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-md bg-primary text-primary-foreground text-sm font-medium"><Plus className="h-4 w-4" />新增会员</button>} />
+        actions={<button onClick={() => setSheetOpen(true)} className="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-md bg-primary text-primary-foreground text-sm font-medium"><Plus className="h-4 w-4" />新增会员</button>} />
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
         <StatCard label="在册会员" value={members.length} unit="家" icon={<Crown className="h-4 w-4" />} variant="primary" />
@@ -116,6 +131,49 @@ function MembersPage() {
           </table>
         </div>
       </div>
+
+      {/* 新增会员侧滑面板 */}
+      <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
+        <SheetContent className="sm:max-w-md overflow-y-auto">
+          <SheetHeader>
+            <SheetTitle>新增会员</SheetTitle>
+            <SheetDescription>将企业纳入协会会员体系，设置会员等级与会费标准</SheetDescription>
+          </SheetHeader>
+          <div className="space-y-4 mt-6">
+            <div>
+              <label className="text-sm font-medium mb-1.5 block">选择企业 <span className="text-destructive">*</span></label>
+              <select value={form.enterprise} onChange={(e) => setForm({ ...form, enterprise: e.target.value })} className="w-full h-9 px-2 rounded-md border border-input bg-background text-sm outline-none">
+                {enterprises.filter((e) => e.memberLevel === "非会员").map((e) => (
+                  <option key={e.id}>{e.name}</option>
+                ))}
+              </select>
+              {enterprises.filter((e) => e.memberLevel === "非会员").length === 0 && (
+                <p className="text-[11px] text-muted-foreground mt-1">暂无可添加的非会员企业</p>
+              )}
+            </div>
+            <div>
+              <label className="text-sm font-medium mb-1.5 block">会员等级</label>
+              <select value={form.level} onChange={(e) => setForm({ ...form, level: e.target.value })} className="w-full h-9 px-2 rounded-md border border-input bg-background text-sm outline-none">
+                {levelOrder.map((lv) => <option key={lv}>{lv}</option>)}
+              </select>
+            </div>
+            <div>
+              <label className="text-sm font-medium mb-1.5 block">年会费</label>
+              <div className="h-9 px-3 rounded-md border border-input bg-secondary/30 text-sm flex items-center">
+                ¥{(fees[form.level] || 0).toLocaleString()}
+              </div>
+            </div>
+            <div>
+              <label className="text-sm font-medium mb-1.5 block">入会日期</label>
+              <input type="date" value={form.joinDate} onChange={(e) => setForm({ ...form, joinDate: e.target.value })} className="w-full h-9 px-3 rounded-md border border-input bg-background text-sm outline-none focus:ring-1 focus:ring-ring" />
+            </div>
+            <div className="pt-4 flex gap-2">
+              <button onClick={handleSubmit} className="flex-1 h-9 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:opacity-90">保存</button>
+              <button onClick={() => setSheetOpen(false)} className="flex-1 h-9 rounded-md border border-input text-sm hover:bg-accent">取消</button>
+            </div>
+          </div>
+        </SheetContent>
+      </Sheet>
     </AppShell>
   );
 }

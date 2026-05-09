@@ -1,9 +1,11 @@
 import { createFileRoute, Link, Outlet, useLocation } from "@tanstack/react-router";
 import { useState, useMemo } from "react";
 import { AppShell, PageHeader } from "@/components/layout/AppShell";
-import { enterprises } from "@/lib/mock-data";
-import { Search, Filter, Download, Plus, Crown, AlertTriangle, ExternalLink } from "lucide-react";
+import { enterprises, districts as districtList, industryList } from "@/lib/mock-data";
+import { Search, Filter, Download, Plus, Crown, AlertTriangle, ExternalLink, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/enterprises")({ component: EnterprisesPage });
 
@@ -24,6 +26,17 @@ function EnterprisesPage() {
   const [status, setStatus] = useState("");
   const [memberOnly, setMemberOnly] = useState(false);
 
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const [form, setForm] = useState({
+    name: "",
+    creditCode: "",
+    district: districtList[0],
+    industry: industryList[0],
+    scale: "中型",
+    legalRep: "",
+    contactPhone: "",
+  });
+
   const districts = Array.from(new Set(enterprises.map((e) => e.district)));
   const scales = ["大型", "中型", "小型", "微型"];
 
@@ -34,6 +47,16 @@ function EnterprisesPage() {
     (!status || e.status === status) &&
     (!memberOnly || e.memberLevel !== "非会员"),
   ), [q, district, scale, status, memberOnly]);
+
+  const handleSubmit = () => {
+    if (!form.name.trim()) {
+      toast.error("请输入企业名称");
+      return;
+    }
+    toast.success(`企业「${form.name}」已创建`, { description: "数据已保存至系统中" });
+    setSheetOpen(false);
+    setForm({ name: "", creditCode: "", district: districtList[0], industry: industryList[0], scale: "中型", legalRep: "", contactPhone: "" });
+  };
 
   if (isDetailPage) {
     return <Outlet />;
@@ -48,7 +71,7 @@ function EnterprisesPage() {
           <>
             <button className="inline-flex items-center gap-1.5 h-9 px-3 rounded-md border border-input text-sm hover:bg-accent"><Download className="h-4 w-4" />导出</button>
             <button className="inline-flex items-center gap-1.5 h-9 px-3 rounded-md border border-input text-sm hover:bg-accent">Excel导入</button>
-            <button className="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:opacity-90"><Plus className="h-4 w-4" />新增企业</button>
+            <button onClick={() => setSheetOpen(true)} className="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:opacity-90"><Plus className="h-4 w-4" />新增企业</button>
           </>
         }
       />
@@ -127,6 +150,60 @@ function EnterprisesPage() {
           </div>
         </div>
       </div>
+
+      {/* 新增企业侧滑面板 */}
+      <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
+        <SheetContent className="sm:max-w-md overflow-y-auto">
+          <SheetHeader>
+            <SheetTitle>新增企业</SheetTitle>
+            <SheetDescription>录入企业基础信息，系统将自动分配统一社会信用代码</SheetDescription>
+          </SheetHeader>
+          <div className="space-y-4 mt-6">
+            <div>
+              <label className="text-sm font-medium mb-1.5 block">企业名称 <span className="text-destructive">*</span></label>
+              <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="输入企业全称" className="w-full h-9 px-3 rounded-md border border-input bg-background text-sm outline-none focus:ring-1 focus:ring-ring" />
+            </div>
+            <div>
+              <label className="text-sm font-medium mb-1.5 block">统一社会信用代码</label>
+              <input value={form.creditCode} onChange={(e) => setForm({ ...form, creditCode: e.target.value })} placeholder="91XXXXXXXXXXXXXX" className="w-full h-9 px-3 rounded-md border border-input bg-background text-sm outline-none focus:ring-1 focus:ring-ring" />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="text-sm font-medium mb-1.5 block">所属区县</label>
+                <select value={form.district} onChange={(e) => setForm({ ...form, district: e.target.value })} className="w-full h-9 px-2 rounded-md border border-input bg-background text-sm outline-none">
+                  {districtList.map((d: string) => <option key={d}>{d}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className="text-sm font-medium mb-1.5 block">企业规模</label>
+                <select value={form.scale} onChange={(e) => setForm({ ...form, scale: e.target.value })} className="w-full h-9 px-2 rounded-md border border-input bg-background text-sm outline-none">
+                  {scales.map((s) => <option key={s}>{s}</option>)}
+                </select>
+              </div>
+            </div>
+            <div>
+              <label className="text-sm font-medium mb-1.5 block">主营行业</label>
+              <select value={form.industry} onChange={(e) => setForm({ ...form, industry: e.target.value })} className="w-full h-9 px-2 rounded-md border border-input bg-background text-sm outline-none">
+                {industryList.map((ind: string) => <option key={ind}>{ind}</option>)}
+              </select>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="text-sm font-medium mb-1.5 block">法定代表人</label>
+                <input value={form.legalRep} onChange={(e) => setForm({ ...form, legalRep: e.target.value })} placeholder="姓名" className="w-full h-9 px-3 rounded-md border border-input bg-background text-sm outline-none focus:ring-1 focus:ring-ring" />
+              </div>
+              <div>
+                <label className="text-sm font-medium mb-1.5 block">联系电话</label>
+                <input value={form.contactPhone} onChange={(e) => setForm({ ...form, contactPhone: e.target.value })} placeholder="138****8888" className="w-full h-9 px-3 rounded-md border border-input bg-background text-sm outline-none focus:ring-1 focus:ring-ring" />
+              </div>
+            </div>
+            <div className="pt-4 flex gap-2">
+              <button onClick={handleSubmit} className="flex-1 h-9 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:opacity-90">保存</button>
+              <button onClick={() => setSheetOpen(false)} className="flex-1 h-9 rounded-md border border-input text-sm hover:bg-accent">取消</button>
+            </div>
+          </div>
+        </SheetContent>
+      </Sheet>
     </AppShell>
   );
 }

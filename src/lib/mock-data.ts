@@ -40,9 +40,10 @@ export interface Enterprise {
   chainLayer: "基础层" | "平台层" | "应用层" | "服务层";
 }
 
-const districts = ["高新区", "经开区", "金水区", "中原区", "二七区", "管城区", "惠济区", "郑东新区"];
-const industriesAll = ["软件与信息服务", "电子信息制造", "通信与网络", "信息安全", "人工智能", "大数据与云计算", "数字内容与文创", "IT服务与集成"];
+export const districts = ["高新区", "经开区", "金水区", "中原区", "二七区", "管城区", "惠济区", "郑东新区"];
+export const industryList = ["软件与信息服务", "电子信息制造", "通信与网络", "信息安全", "人工智能", "大数据与云计算", "数字内容与文创", "IT服务与集成"];
 const honorsAll = ["高新技术企业", "国家级专精特新", "省级专精特新", "软件企业", "CMMI 5", "市级龙头企业"];
+const industriesAll = industryList;
 const natures: CompanyNature[] = ["民营", "国有", "外资", "合资"];
 const scales: CompanyScale[] = ["大型", "中型", "小型", "微型"];
 const memberLevels: MemberLevel[] = ["会长单位", "副会长单位", "常务理事单位", "理事单位", "普通会员单位", "非会员"];

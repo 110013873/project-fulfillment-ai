@@ -1,20 +1,41 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
 import { AppShell, PageHeader } from "@/components/layout/AppShell";
 import { enterprises } from "@/lib/mock-data";
 import { Award, Plus, Bell } from "lucide-react";
 import { StatCard } from "@/components/StatCard";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/honors")({ component: HonorsPage });
 
 const honorTypes = ["高新技术企业", "国家级专精特新", "省级专精特新", "软件企业", "CMMI 5", "市级龙头企业"];
 
 function HonorsPage() {
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const [form, setForm] = useState({
+    enterprise: enterprises[0]?.name || "",
+    honor: "高新技术企业",
+    agency: "科技部",
+    date: "2025-01-01",
+    expire: "2028-01-01",
+  });
+
   const counts = honorTypes.map((h) => ({ name: h, count: enterprises.filter((e) => e.honors.includes(h)).length, last: Math.floor(Math.random() * 20) + 5 }));
+
+  const handleSubmit = () => {
+    if (!form.enterprise.trim()) {
+      toast.error("请选择企业");
+      return;
+    }
+    toast.success(`已为「${form.enterprise}」录入「${form.honor}」资质`);
+    setSheetOpen(false);
+  };
 
   return (
     <AppShell>
       <PageHeader title="荣誉资质追踪" subtitle="高新技术企业、专精特新等核心资质动态追踪与到期提醒"
-        actions={<button className="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-md bg-primary text-primary-foreground text-sm font-medium"><Plus className="h-4 w-4" />录入资质</button>} />
+        actions={<button onClick={() => setSheetOpen(true)} className="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-md bg-primary text-primary-foreground text-sm font-medium"><Plus className="h-4 w-4" />录入资质</button>} />
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
         <StatCard label="高新技术企业" value={counts[0].count} unit="家" delta={13} hint="本年新增18" variant="primary" icon={<Award className="h-4 w-4" />} />
@@ -68,6 +89,48 @@ function HonorsPage() {
           </table>
         </div>
       </div>
+
+      {/* 录入资质侧滑面板 */}
+      <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
+        <SheetContent className="sm:max-w-md overflow-y-auto">
+          <SheetHeader>
+            <SheetTitle>录入资质</SheetTitle>
+            <SheetDescription>为企业录入新的荣誉资质或认定</SheetDescription>
+          </SheetHeader>
+          <div className="space-y-4 mt-6">
+            <div>
+              <label className="text-sm font-medium mb-1.5 block">企业名称 <span className="text-destructive">*</span></label>
+              <select value={form.enterprise} onChange={(e) => setForm({ ...form, enterprise: e.target.value })} className="w-full h-9 px-2 rounded-md border border-input bg-background text-sm outline-none">
+                {enterprises.map((e) => <option key={e.id}>{e.name}</option>)}
+              </select>
+            </div>
+            <div>
+              <label className="text-sm font-medium mb-1.5 block">资质类型</label>
+              <select value={form.honor} onChange={(e) => setForm({ ...form, honor: e.target.value })} className="w-full h-9 px-2 rounded-md border border-input bg-background text-sm outline-none">
+                {honorTypes.map((h) => <option key={h}>{h}</option>)}
+              </select>
+            </div>
+            <div>
+              <label className="text-sm font-medium mb-1.5 block">认定机构</label>
+              <input value={form.agency} onChange={(e) => setForm({ ...form, agency: e.target.value })} className="w-full h-9 px-3 rounded-md border border-input bg-background text-sm outline-none focus:ring-1 focus:ring-ring" />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="text-sm font-medium mb-1.5 block">认定日期</label>
+                <input type="date" value={form.date} onChange={(e) => setForm({ ...form, date: e.target.value })} className="w-full h-9 px-3 rounded-md border border-input bg-background text-sm outline-none focus:ring-1 focus:ring-ring" />
+              </div>
+              <div>
+                <label className="text-sm font-medium mb-1.5 block">有效期至</label>
+                <input type="date" value={form.expire} onChange={(e) => setForm({ ...form, expire: e.target.value })} className="w-full h-9 px-3 rounded-md border border-input bg-background text-sm outline-none focus:ring-1 focus:ring-ring" />
+              </div>
+            </div>
+            <div className="pt-4 flex gap-2">
+              <button onClick={handleSubmit} className="flex-1 h-9 rounded-md bg-primary text-primary-foreground text-sm font-medium hover:opacity-90">保存</button>
+              <button onClick={() => setSheetOpen(false)} className="flex-1 h-9 rounded-md border border-input text-sm hover:bg-accent">取消</button>
+            </div>
+          </div>
+        </SheetContent>
+      </Sheet>
     </AppShell>
   );
 }
