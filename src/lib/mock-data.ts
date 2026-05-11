@@ -1,4 +1,4 @@
-// 模拟数据 - 信息产业协会平台
+// 模拟数据 - 北京信创工委会平台
 
 export type MemberLevel = "会长单位" | "副会长单位" | "常务理事单位" | "理事单位" | "普通会员单位" | "非会员";
 export type DataStatus = "草稿" | "待审核" | "已发布" | "已停用";
@@ -37,17 +37,51 @@ export interface Enterprise {
   patentCount?: number;
   riskLevel: RiskLevel;
   riskTypes: string[];
-  chainLayer: "基础层" | "平台层" | "应用层" | "服务层";
+  chainLayer:
+    | "整机"
+    | "外部设备"
+    | "芯片/半导体"
+    | "传感设备"
+    | "中间件"
+    | "操作系统"
+    | "数据库"
+    | "存储-硬件"
+    | "存储-软件"
+    | "网络安全-硬件"
+    | "网络安全-软件"
+    | "网络通信-硬件"
+    | "网络通信-软件"
+    | "办公流版签"
+    | "管理软件"
+    | "行业应用"
+    | "工业软件"
+    | "大数据"
+    | "AI"
+    | "未来信息"
+    | "元宇宙/数字孪生"
+    | "集成服务"
+    | "云计算"
+    | "运维服务"
+    | "智库机构"
+    | "工具软件"
+    | "其它";
 }
 
-export const districts = ["高新区", "经开区", "金水区", "中原区", "二七区", "管城区", "惠济区", "郑东新区"];
+export const districts = ["海淀区", "朝阳区", "东城区", "西城区", "丰台区", "石景山区", "通州区", "大兴区"];
 export const industryList = ["软件与信息服务", "电子信息制造", "通信与网络", "信息安全", "人工智能", "大数据与云计算", "数字内容与文创", "IT服务与集成"];
 const honorsAll = ["高新技术企业", "国家级专精特新", "省级专精特新", "软件企业", "CMMI 5", "市级龙头企业"];
 const industriesAll = industryList;
 const natures: CompanyNature[] = ["民营", "国有", "外资", "合资"];
 const scales: CompanyScale[] = ["大型", "中型", "小型", "微型"];
 const memberLevels: MemberLevel[] = ["会长单位", "副会长单位", "常务理事单位", "理事单位", "普通会员单位", "非会员"];
-const chainLayers = ["基础层", "平台层", "应用层", "服务层"] as const;
+const chainLayers = [
+  "整机", "外部设备", "芯片/半导体", "传感设备", "中间件",
+  "操作系统", "数据库", "存储-硬件", "存储-软件",
+  "网络安全-硬件", "网络安全-软件", "网络通信-硬件", "网络通信-软件",
+  "办公流版签", "管理软件", "行业应用", "工业软件",
+  "大数据", "AI", "未来信息", "元宇宙/数字孪生",
+  "集成服务", "云计算", "运维服务", "智库机构", "工具软件", "其它",
+] as const;
 
 const namePool = [
   "中科信息", "鸿信科技", "智云数据", "天网安全", "云创软件", "万维网络", "数智未来", "星辰半导体",
@@ -74,8 +108,8 @@ const pickN = <T,>(arr: readonly T[], n: number) => {
   return out;
 };
 
-const baseLng = 113.65;
-const baseLat = 34.75;
+const baseLng = 116.40;
+const baseLat = 39.90;
 
 export const enterprises: Enterprise[] = namePool.map((name, idx) => {
   const isListed = idx < 8;
@@ -124,7 +158,7 @@ export const enterprises: Enterprise[] = namePool.map((name, idx) => {
     patentCount: Math.floor(rand() * 200),
     riskLevel,
     riskTypes,
-    chainLayer: chainLayers[idx % 4],
+    chainLayer: chainLayers[idx % chainLayers.length],
   };
 });
 
@@ -185,7 +219,7 @@ export const activities: Activity[] = Array.from({ length: 18 }).map((_, i) => (
   type: pick(["培训", "论坛", "对接会", "参观考察", "政策宣讲"]) as Activity["type"],
   date: `2025-${String(1 + Math.floor(rand() * 11)).padStart(2, "0")}-${String(1 + Math.floor(rand() * 28)).padStart(2, "0")}`,
   location: pick(["国际会展中心", "协会大厦多功能厅", "高新区管委会", "希尔顿酒店"]),
-  organizer: "信息产业协会",
+  organizer: "北京信创工委会",
   intro: "本次活动旨在搭建企业交流平台，推动行业生态共建，促进产业链上下游协同发展。",
   participants: 50 + Math.floor(rand() * 300),
   enterpriseIds: enterprises.slice(0, 5 + Math.floor(rand() * 15)).map((e) => e.id),

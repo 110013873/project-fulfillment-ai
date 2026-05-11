@@ -63,7 +63,7 @@ export function AppSidebar() {
         <Link to="/" className="flex items-center gap-2.5">
           <div className="h-9 w-9 rounded-md bg-gradient-primary flex items-center justify-center text-primary-foreground font-bold shadow-elevated">信</div>
           <div className="leading-tight">
-            <div className="text-sm font-semibold text-sidebar-primary-foreground">信息产业协会</div>
+            <div className="text-sm font-semibold text-sidebar-primary-foreground">北京信创工委会</div>
             <div className="text-[11px] text-sidebar-foreground/60">数据管理平台</div>
           </div>
         </Link>

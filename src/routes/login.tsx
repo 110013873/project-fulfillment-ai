@@ -42,7 +42,7 @@ function LoginPage() {
           <div className="h-16 w-16 rounded-2xl bg-white/20 backdrop-blur flex items-center justify-center mx-auto mb-6 ring-1 ring-white/30">
             <Shield className="h-8 w-8" />
           </div>
-          <h1 className="text-3xl font-bold mb-3">信息产业协会</h1>
+          <h1 className="text-3xl font-bold mb-3">北京信创工委会</h1>
           <p className="text-lg opacity-90 mb-2">数据管理平台</p>
           <p className="text-sm opacity-70 max-w-sm mx-auto">
             聚·治·见 三位一体<br />

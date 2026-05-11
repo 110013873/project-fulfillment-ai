@@ -15,19 +15,19 @@ import "leaflet/dist/leaflet.css";
 
 export const Route = createFileRoute("/map")({ component: MapPage });
 
-/* ── 郑州市各区简化边界（[lng, lat] → 代码里再翻转成 Leaflet 的 [lat, lng]） ── */
+/* ── 北京市各区简化边界（[lng, lat] → 代码里再翻转成 Leaflet 的 [lat, lng]） ── */
 const districtBoundaries: Record<string, [number, number][]> = {
-  "高新区":    [[113.52,34.79],[113.58,34.82],[113.62,34.80],[113.60,34.76],[113.54,34.75]],
-  "经开区":    [[113.72,34.70],[113.78,34.72],[113.80,34.68],[113.74,34.66]],
-  "金水区":    [[113.65,34.78],[113.72,34.80],[113.74,34.76],[113.68,34.74]],
-  "中原区":    [[113.58,34.76],[113.64,34.78],[113.66,34.74],[113.60,34.72]],
-  "二七区":    [[113.62,34.72],[113.68,34.74],[113.66,34.70],[113.60,34.68]],
-  "管城区":    [[113.68,34.74],[113.74,34.76],[113.76,34.72],[113.70,34.70]],
-  "惠济区":    [[113.58,34.82],[113.66,34.84],[113.68,34.80],[113.60,34.78]],
-  "郑东新区":  [[113.72,34.76],[113.80,34.78],[113.82,34.74],[113.74,34.72]],
+  "海淀区":   [[116.28,39.98],[116.38,40.00],[116.40,39.96],[116.35,39.93],[116.25,39.95]],
+  "朝阳区":   [[116.42,39.98],[116.50,39.96],[116.52,39.90],[116.44,39.86],[116.38,39.92]],
+  "东城区":   [[116.40,39.94],[116.44,39.95],[116.46,39.92],[116.42,39.90],[116.38,39.91]],
+  "西城区":   [[116.34,39.93],[116.38,39.94],[116.40,39.91],[116.36,39.89],[116.32,39.90]],
+  "丰台区":   [[116.26,39.88],[116.36,39.89],[116.40,39.84],[116.32,39.82],[116.22,39.84]],
+  "石景山区": [[116.18,39.92],[116.24,39.93],[116.26,39.89],[116.20,39.88],[116.16,39.90]],
+  "通州区":   [[116.62,39.93],[116.72,39.91],[116.74,39.86],[116.64,39.84],[116.56,39.88]],
+  "大兴区":   [[116.30,39.80],[116.42,39.78],[116.44,39.72],[116.32,39.68],[116.22,39.74]],
 };
 
-const zhengzhouCenter: [number, number] = [34.75, 113.65];
+const beijingCenter: [number, number] = [39.90, 116.40];
 
 /* ── 辅助：根据热力值生成颜色 ── */
 function heatColor(heat: number, selected: boolean) {
@@ -112,7 +112,7 @@ function MapPage() {
       <div className="relative h-[calc(100vh-180px)] rounded-xl overflow-hidden border border-border shadow-elevated">
         {/* ========== 真实地图 ========== */}
         <MapContainer
-          center={zhengzhouCenter}
+          center={beijingCenter}
           zoom={11}
           minZoom={10}
           maxZoom={16}
@@ -389,7 +389,7 @@ function MapPage() {
         <div className="absolute bottom-3 left-3 z-[400] pointer-events-none">
           <div className="pointer-events-auto bg-background/90 backdrop-blur-md rounded-lg border border-border shadow-sm px-3 py-2 flex items-center gap-2">
             <MapPin className="h-4 w-4 text-primary" />
-            <span className="text-xs font-medium">郑州市</span>
+            <span className="text-xs font-medium">北京市</span>
           </div>
         </div>
 

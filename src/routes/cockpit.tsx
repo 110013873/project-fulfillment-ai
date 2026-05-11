@@ -86,7 +86,7 @@ function Cockpit() {
             <span className="h-px w-16 bg-gradient-to-r from-transparent to-cyan-400/60" />
             <Radio className="h-4 w-4 text-cyan-300 pulse-dot" />
             <h1 className="text-[28px] font-bold tracking-[0.2em] bg-gradient-to-r from-cyan-100 via-blue-200 to-cyan-100 bg-clip-text text-transparent text-glow-cyan">
-              信息产业协会 · 数据驾驶舱
+              北京信创工委会 · 数据驾驶舱
             </h1>
             <Radio className="h-4 w-4 text-cyan-300 pulse-dot" />
             <span className="h-px w-16 bg-gradient-to-l from-transparent to-cyan-400/60" />

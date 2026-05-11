@@ -72,10 +72,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "信息产业协会数据管理平台" },
+      { title: "北京信创工委会数据管理平台" },
       { name: "description", content: "汇聚 · 治理 · 洞察 — 一站式产业数据管理与决策平台" },
-      { name: "author", content: "信息产业协会" },
-      { property: "og:title", content: "信息产业协会数据管理平台" },
+      { name: "author", content: "北京信创工委会" },
+      { property: "og:title", content: "北京信创工委会数据管理平台" },
       { property: "og:description", content: "汇聚 · 治理 · 洞察" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
